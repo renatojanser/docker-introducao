@@ -4,27 +4,26 @@ const mysql = require('mysql');
 const app = express();
 
 const connection = mysql.createConnection({
-    host: 'msyql-container',
-    user: 'root',
-    password: 123456,
-    database: 'programadorabordo'
+  host: 'mysql-container',
+  user: 'root',
+  password: 'programadorabordo',
+  database: 'programadorabordo'
 });
 
 connection.connect();
 
-app.get('/products', (req, res) => {
-    connection.query('SELECT * FROM products', (error, result) => {
-        if (error) {
-            throw error
-        }
+app.get('/products', function(req, res) {
+  connection.query('SELECT * FROM products', function (error, results) {
 
-        res.send(results.map(item => ({ 
-                name: item.name, 
-                price: item.price 
-        })));
-    });
+    if (error) { 
+      throw error
+    };
+
+    res.send(results.map(item => ({ name: item.name, price: item.price })));
+  });
 });
 
-app.listen(9001, '0.0.0.0', () => {
-    console.log('Listening on port 9001');
-});
+
+app.listen(9001, '0.0.0.0', function() {
+  console.log('Listening on port 9001');
+})
